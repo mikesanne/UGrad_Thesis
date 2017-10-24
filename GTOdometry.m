@@ -84,8 +84,8 @@ hold off
 
 % Display camera poses.
 figure;
-
-plotCamera(groundTruthPoses(1:50,:), 'Size', 0.2);
+axis([-0.5, 0.5, -0.5, 0.5, -0.5, 0.5]);
+plotCamera(groundTruthPoses(1:10,:), 'Size', 0.2);
 hold on
 
 hold off
@@ -96,7 +96,7 @@ xlim([loc1(1)-5, loc1(1)+10]);
 ylim([loc1(2)-10, loc1(2)+10]);
 zlim([loc1(3)-1, loc1(3)+10]);
 camorbit(0, -120, -90);
-%axis([-5, 5, -5, 5, -5, 5]);
+axis([-1, 1, -1, 1, -1, 1]);
 xlabel('X (m)');
 ylabel('Y (m)');
 zlabel('Z (m)');

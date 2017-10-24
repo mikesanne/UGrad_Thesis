@@ -69,7 +69,6 @@ for i = 1:height(vicon1loopDown)
         Rotation = vicon.Orientation{1}';
     end
     
-    %vicon.Orientation = vicon.Orientation.*Rotation;
     vicon.Orientation{1} = vicon.Orientation{1}*Rotation;
     
     groundTruthPoses(count,:) = struct2table(vicon);
