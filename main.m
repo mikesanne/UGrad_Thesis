@@ -28,11 +28,11 @@ close all;
     % Detect Features for Image 1
     mtsparm = 250;
     points1 = detectSURFFeatures(I1, 'MetricThreshold', mtsparm);
-    feat1 = extractFeatures(I1, points1);
+    feat1 = extractFeatures(I1, points1);%, 'Upright', true);
 
     % Detect Features for Image 2
     points2 = detectSURFFeatures(I2, 'MetricThreshold', mtsparm);
-    feat2 = extractFeatures(I2, points2);
+    feat2 = extractFeatures(I2, points2);%, 'Upright', true);
 
     % Match Features between image 1 and image 2 - Putative matches
     mpairs_12 = matchFeatures(feat1, feat2, 'Unique', true);
@@ -76,12 +76,12 @@ close all;
     vId = vId + 1;
 
     % Add matched point connections between the views to the viewset
-    v = addConnection(v, vId-2, vId-1, 'Matches', mpairs_12(minf_12, :));
+    v = addConnection(v, vId-2, vId-1, 'Matches', mpairs_12);
 
     %% Loop
-for i = 3:10%numel(images.Files)
-close all;
-rng('default');
+for i = 3:50%numel(images.Files)
+    close all;
+    rng('default');
     %% Import next image and Determine Relative Pose Between 2 and 3
     I3 = rgb2gray(readimage(images,i));
 
@@ -94,7 +94,7 @@ rng('default');
     mpoints2_23 = points2(mpairs_23(:,1));  mpoints3_23 = points3(mpairs_23(:,2));
 
     % Pose estimation
-    for i=1:1000
+    for j=1:1000
 
       % Estimate the essential matrix with minimum 30% inliers
       [E_23, minf_23] = estimateEssentialMatrix(mpoints2_23, mpoints3_23, cameraParams);
@@ -138,25 +138,15 @@ rng('default');
     
     %% Determine Scale using distance between 2 points
     
-    % Find distance between corresponding points in world plane X from plane 1 and 2 
-    scaleVector = zeros(1, length(points1_123)-1);
-    for j = 1:length(points1_123)-1
-         wp1_12 = triangulate(points1_123(j), points2_123(j), P1_12, P2_12);
-         wp2_12 = triangulate(points1_123(j+1), points2_123(j+1), P1_12, P2_12);
-         distance1_1 = sqrt ((wp2_12(1)-wp1_12(1))^2+(wp2_12(2)-wp1_12(2))^2+(wp2_12(3)-wp1_12(3))^2);
-         
-         wp1_23 = triangulate(points2b_123(j), points3_123(j), P2_23, P3_23);
-         wp2_23 = triangulate(points2b_123(j+1), points3_123(j+1), P2_23, P3_23);
-         distance2_1 = sqrt ((wp2_23(1)-wp1_23(1))^2+(wp2_23(2)-wp1_23(2))^2+(wp2_23(3)-wp1_23(3))^2);
-
-        scale1 = distance1_1/distance2_1;
-
-        scaleVector(1, j) = scale1;
+    % Least Squares scale equation
+    C1 = 0;
+    C2 = 0;
+    for j = 1:length(points1_123)
+        C1 = C1 + wp_12(j,:)*wp_23(j,:)';
+        C2 = C2 + wp_23(j,:)*wp_23(j,:)';
     end
+    scale = C1/C2;
     
-    % Compute scale average between 2 planes
-    scale = trimmean(scaleVector, 50);
-
     %% Perform Rotation from X" to X
     % Rotate Image 2 from [I 0] to [R t]
     R2_23 = R2_12;
@@ -205,11 +195,10 @@ rng('default');
     camPoses = poses(v);
     plotCamera(camPoses, 'Size', 0.2);
     hold on
-    sh = scatter3(xyzPoints(:,1)', xyzPoints(:,2)', xyzPoints(:,3)', 'b.');
     title('Camera Poses with Bundle Adjustment');
     
      %% Remap Variables for loop
-    
+     
     I1 = I2;
     I2 = I3;
 
