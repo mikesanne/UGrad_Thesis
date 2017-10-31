@@ -137,7 +137,7 @@ for i = 3:50%numel(images.Files)
     wp_23 = triangulate(points2b_123, points3_123, P2_23, P3_23);
     
     %% Determine Scale using distance between 2 points
-    
+    wp_12 = wp_12 - t2_12;
     % Least Squares scale equation
     C1 = 0;
     C2 = 0;
