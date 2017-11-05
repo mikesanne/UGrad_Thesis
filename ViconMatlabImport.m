@@ -48,7 +48,11 @@ fclose(fileID);
 %% Create output variable
 vicon1loopDown = table(dataArray{1:end-1}, 'VariableNames', {'Timestamp','x','y','z','roll','pitch','yaw','xAngularRate','yAngularRate','zAngularRate'});
 groundTruthPoses = table();
-
+R_VicCam = [0.008597565454506  -0.991125267392933   0.002125523552400; ...
+ -0.995859015266209   0.002879412699678   0.003052403580956; ...     
+  0.010278931642942   0.011669516433584  -0.995463464052292];  
+t_VicCam = [-92.980069288466 26.672207606184 -255.416164272468];
+T_VicCam = [R_VicCam t_VicCam'; 0 0 0 1];
 count = 0;
 for i = 1:height(vicon1loopDown)
     count = count+1;
@@ -63,10 +67,11 @@ for i = 1:height(vicon1loopDown)
     pitch = table2array(vicon1loopDown(i,6));
     yaw = table2array(vicon1loopDown(i,7));
     dcm = angle2dcm( yaw, pitch, roll);
-    vicon.Orientation = {dcm};
+    
+    vicon.Orientation = {dcm'};
     Rotation = eye(3);
     if (i == 1) 
-        Rotation = vicon.Orientation{1}';
+        Rotation = (vicon.Orientation{1})';
     end
     
     vicon.Orientation{1} = vicon.Orientation{1}*Rotation;
