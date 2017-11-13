@@ -1,3 +1,18 @@
+% Michael Sanne 13/11/2017
+% UGrad_Thesis 2017
+% Plot3D
+% Plotting function for plotting 4 cameras with 2 sets of point matches
+% onto a common figure
+% INPUTS
+%   R(n) = Rotation matrix corresponding to the nth camera
+%   t(n) = translational vector corresponding to the nth camera
+%   cameraParams = cameraParams object containing the intrinsic parameters
+%   of the camera
+%   points(m)_(n) = point matches corresponding to the mth view from the
+%   nth corresponding set
+%   path = path to where the figure should be printed
+
+%%
 function Plot3D (R1, t1, R2, t2, R3, t3, R4, t4, cameraParams, points1_12, points2_12, points1_34, points2_34, path)    
 %% Plot
     
@@ -9,7 +24,7 @@ function Plot3D (R1, t1, R2, t2, R3, t3, R4, t4, cameraParams, points1_12, point
     P4 = cameraMatrix(cameraParams, R4, t4);
     wpi_12 = triangulate(points1_12, points2_12, P1, P2);
     wpi_34 = triangulate(points1_34, points2_34, P3, P4);
-    figure;  %axis([-10, 10, -10, 10, 0, 20]);
+    figure;
     set(0,'DefaultTextInterpreter', 'latex');
     view(gca, 3);
     set(gca, 'CameraUpVector', [0,-1, 0]); camorbit(gca, -120, 0, 'data', [0, 1, 0]);
@@ -23,5 +38,5 @@ function Plot3D (R1, t1, R2, t2, R3, t3, R4, t4, cameraParams, points1_12, point
     scatter3(wpi_12(:,1)',wpi_12(:,2)',wpi_12(:,3)',100,'g.');
     scatter3(wpi_34(:,1)',wpi_34(:,2)',wpi_34(:,3)',100,'r.');
     set(0,'DefaultTextInterpreter', 'latex');
-    title('3 Cameras and Matched Points With Scale Adjustment');
+    title('3 Cameras and Matched Points Before Scale Adjustment');
     print(gcf, '-depsc', path);

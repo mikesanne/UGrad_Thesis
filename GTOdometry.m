@@ -1,11 +1,7 @@
 % Ground Truth Only
+% Generates a visual odometry using every vicon ground truth file available
 
-% Load ground truth camera poses.
-%load(fullfile(toolboxdir('vision'), 'visiondata', ...
-%    'visualOdometryGroundTruth.mat'));
 ViconMatlabImport;
-%%%%% DONE -- Just Reads in file and Ground Truth 
-%%%%% -- Needs to be updated to take in VICON Data
 
 %% Create a View Set Containing the First View of the Sequence
 % Use a |viewSet| object to store and manage the image points and the
@@ -95,7 +91,7 @@ loc1 = groundTruthPoses.Location{1};
 xlim([loc1(1)-5, loc1(1)+10]);
 ylim([loc1(2)-10, loc1(2)+10]);
 zlim([loc1(3)-1, loc1(3)+10]);
-camorbit(0, -120, -90);
+%camorbit(0, -120, -90);
 xlabel('X (m)');
 ylabel('Y (m)');
 zlabel('Z (m)');

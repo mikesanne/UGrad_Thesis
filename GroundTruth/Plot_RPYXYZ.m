@@ -7,8 +7,6 @@ start = 1;
 finish = size(xCam,1);
 step = 1;
 
-
-
 set(0,'DefaultTextInterpreter', 'latex');
 figure;
     hold on;    
@@ -23,7 +21,7 @@ figure;
     l = legend('Estimated Roll', 'Ground Truth Roll');
     set(l, 'Interpreter', 'latex');
     hold off;
-    print(gcf, '-depsc', '/Users/michaelsanne/Documents/UCT/4th Year/Theses/Thesis Write-up/figures/roll_fivepoint');
+%    print(gcf, '-depsc', '/Users/michaelsanne/Documents/UCT/4th Year/Theses/Thesis Write-up/figures/roll_fivepoint');
 
 figure;
     hold on;
@@ -38,7 +36,7 @@ figure;
     l = legend('Estimated Pitch', 'Ground Truth Pitch');
     set(l, 'Interpreter', 'latex');
     hold off;
-    print(gcf, '-depsc', '/Users/michaelsanne/Documents/UCT/4th Year/Theses/Thesis Write-up/figures/pitch_fivepoint');
+%    print(gcf, '-depsc', '/Users/michaelsanne/Documents/UCT/4th Year/Theses/Thesis Write-up/figures/pitch_fivepoint');
 
 figure;
     hold on;
@@ -53,7 +51,7 @@ figure;
     l = legend('Estimated Yaw', 'Ground Truth Yaw');
     set(l, 'Interpreter', 'latex');
     hold off;
-    print(gcf, '-depsc', '/Users/michaelsanne/Documents/UCT/4th Year/Theses/Thesis Write-up/figures/yaw_fivepoint');
+ %   print(gcf, '-depsc', '/Users/michaelsanne/Documents/UCT/4th Year/Theses/Thesis Write-up/figures/yaw_fivepoint');
     
 pitch = figure;
     hold on;    
@@ -68,7 +66,7 @@ pitch = figure;
     l = legend('Estimated X', 'Ground Truth X');
     set(l, 'Interpreter', 'latex');
     hold off;
-    print(gcf, '-depsc', '/Users/michaelsanne/Documents/UCT/4th Year/Theses/Thesis Write-up/figures/x_fivepoint');
+  %  print(gcf, '-depsc', '/Users/michaelsanne/Documents/UCT/4th Year/Theses/Thesis Write-up/figures/x_fivepoint');
 
 figure;
     hold on;
@@ -83,7 +81,7 @@ figure;
     l = legend('Estimated Y', 'Ground Truth Y');
     set(l, 'Interpreter', 'latex');
     hold off;
-    print(gcf, '-depsc', '/Users/michaelsanne/Documents/UCT/4th Year/Theses/Thesis Write-up/figures/y_fivepoint');
+ %   print(gcf, '-depsc', '/Users/michaelsanne/Documents/UCT/4th Year/Theses/Thesis Write-up/figures/y_fivepoint');
 
 figure;
     hold on;
@@ -98,7 +96,7 @@ figure;
     l = legend('Estimated Z', 'Ground Truth Z');
     set(l, 'Interpreter', 'latex');
     hold off;
-    print(gcf, '-depsc', '/Users/michaelsanne/Documents/UCT/4th Year/Theses/Thesis Write-up/figures/z_fivepoint');    
+  %  print(gcf, '-depsc', '/Users/michaelsanne/Documents/UCT/4th Year/Theses/Thesis Write-up/figures/z_fivepoint');    
     
 alphaYaw = cosineSimilarity(yawVicon(1:step:finish),-yawCam(1:step:finish))
 alphaRoll = cosineSimilarity(rollVicon(1:step:finish),-rollCam(1:step:finish))
